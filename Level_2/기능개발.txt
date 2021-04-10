@@ -1,0 +1,40 @@
+#include <string>
+#include <vector>
+
+using namespace std;
+
+vector<int> solution(vector<int> progresses, vector<int> speeds) {
+    vector<int> answer;
+    
+    int top = 0, cnt = 0,i, j;
+
+	while (top < progresses.size())
+	{
+		for (i = 0; i < progresses.size(); i++)
+		{
+			if (progresses[i] < 100)
+			{
+				progresses[i] += speeds[i];
+			}
+			if (progresses[i] >= 100)
+			{
+				speeds[i] = 0;
+			}
+		}
+		for (j = top; j < progresses.size(); j++)
+		{
+			if (progresses[top] >= 100)
+			{
+				cnt++;
+				top++;
+			}
+		}
+		if (cnt > 0)
+		{
+			answer.push_back(cnt);
+			cnt = 0;
+		}
+	}
+    
+    return answer;
+}

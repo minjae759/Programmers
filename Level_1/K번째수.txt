@@ -1,0 +1,20 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+vector<int> solution(vector<int> array, vector<vector<int>> commands) {
+    vector<int> answer;
+    
+    vector<int> v(100);
+
+    for (vector<int>::size_type i = 0; i < commands.size(); i++)
+    {
+        copy(array.begin() + commands.at(i).at(0) - 1, array.begin() + commands.at(i).at(1), v.begin());
+        sort(v.begin(), v.begin() + (commands.at(i).at(1) - commands.at(i).at(0) + 1));
+        answer.push_back(v.at(commands[i].at(2) - 1));
+    }
+    
+    return answer;
+}

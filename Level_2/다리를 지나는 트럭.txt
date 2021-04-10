@@ -1,0 +1,37 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+
+using namespace std;
+
+void add(pair<int,int>& p)
+{
+    p.second++;
+}
+
+int solution(int bridge_length, int weight, vector<int> truck_weights) {
+    int answer = 0;
+    vector<pair<int,int>> count_time;
+    int frontidx = 0;
+    int countidx = 0;
+    int current_weight = 0;
+    
+    while (countidx < truck_weights.size())
+    {
+        if (!count_time.empty() && count_time[countidx].second >= bridge_length)
+        {
+            current_weight -= count_time[countidx++].first;
+        }
+        if (frontidx  < truck_weights.size() && current_weight + truck_weights[frontidx] <= weight)
+        {
+            count_time.push_back(pair<int,int>(truck_weights[frontidx], 0));
+            current_weight += truck_weights[frontidx++];
+        }
+
+        for_each(count_time.begin(), count_time.end(), add);
+        answer++;
+    }
+    
+    return answer;
+}

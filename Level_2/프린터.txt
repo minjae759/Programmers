@@ -1,0 +1,32 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+bool getMax(const pair<int, int>& a, const pair<int, int>& b)
+{
+	return a.first < b.first;
+}
+
+int solution(vector<int> priorities, int location) {
+    int answer = 0;
+    
+    vector<pair<int, int>> priority_queue;
+
+	for (int i = 0; i < priorities.size(); i++)
+	{
+		priority_queue.push_back(pair<int, int>(priorities[i], i));
+	}
+
+	while (true)
+	{
+		vector<pair<int,int>>::iterator maxiter = max_element(priority_queue.begin(), priority_queue.end(),getMax);
+		rotate(priority_queue.begin(), maxiter, priority_queue.end());
+		answer++;
+		if (priority_queue.front().second == location) break;
+		priority_queue.erase(priority_queue.begin());
+	}
+    
+    return answer;
+}

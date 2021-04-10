@@ -1,0 +1,26 @@
+#include <string>
+#include <vector>
+#include<algorithm>
+
+using namespace std;
+
+bool Greater(int left, int right)
+{
+	string s1 = to_string(left) + to_string(right);
+	string s2 = to_string(right) + to_string(left);
+	return s1 > s2;
+}
+
+string solution(vector<int> numbers) {
+    string answer = "";
+    
+    sort(numbers.begin(), numbers.end(), Greater);
+
+	for (vector<int>::size_type i = 0; i < numbers.size(); i++)
+	{
+        if(answer.compare("0") != 0) 
+		    answer += to_string(numbers[i]);
+	}
+    
+    return answer;
+}

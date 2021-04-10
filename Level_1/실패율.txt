@@ -1,0 +1,62 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class accumulate
+{
+	int total;
+public:
+	accumulate(int init = 0) :total(init) {}
+	void operator() (int& val)
+	{
+		total += val;
+		val = total;
+	}
+};
+
+bool comparefirst(const pair<double, int>& a, const pair<double, int>& b)
+{
+	if (a.first != b.first)
+		return (a.first > b.first);
+	else
+		return (a.second < b.second);
+}
+
+vector<int> solution(int N, vector<int> stages) {
+    vector<int> answer;
+	vector<pair<double, int>> failratio;
+	vector<int> failhit(501);
+	vector<int> failaccum(501);
+
+
+	for (vector<int>::size_type i = 0; i < stages.size(); i++)
+	{
+		failhit[stages[i]]++;
+	}
+
+	copy(failhit.begin(), failhit.end(), failaccum.begin());
+
+	for_each(failaccum.begin(), failaccum.end(), accumulate(0));
+
+	for (int i = 0; i < N; i++)
+	{
+		double ratio;
+		int hit = failhit[i + 1];
+		int stgaccum = stages.size() - failaccum[i];
+		if (stgaccum == 0)
+		{
+			ratio = 0;
+		}
+		else
+			ratio = (double)failhit[i + 1] / (double)stgaccum;
+		failratio.push_back(pair<double, int>(ratio, i + 1));
+	}
+	sort(failratio.begin(), failratio.end(), comparefirst);
+	for (int i = 0; i < N; i++)
+	{
+		answer.push_back(failratio[i].second);
+	}
+    return answer;
+}
