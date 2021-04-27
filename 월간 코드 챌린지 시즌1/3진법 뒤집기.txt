@@ -1,0 +1,30 @@
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+int solution(int n) {
+    int answer = 0;
+    int i = 0;
+	string str = "";
+
+	while (n > 0)
+	{
+		int nmg = n % 3;
+		n /= 3;
+		str = to_string(nmg) + str;
+	}
+
+	reverse(str.begin(), str.end());
+	long long  m = atoll(str.c_str());
+
+	while(m > 0)
+	{
+		answer += ((m % 10) * pow(3.0,i));
+		m /= 10;
+		i++;
+	}
+    return answer;
+}
